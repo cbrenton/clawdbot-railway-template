@@ -96,6 +96,9 @@ COPY src ./src
 # If we force a different port, deployments can come up but the domain will route elsewhere.
 EXPOSE 8080
 
+COPY scripts ./scripts
+RUN chmod +x /app/scripts/bootstrap-gog.sh
+
 # Ensure PID 1 reaps zombies and forwards signals.
 ENTRYPOINT ["tini", "--"]
-CMD ["node", "src/server.js"]
+CMD ["/app/scripts/bootstrap-gog.sh", "node", "src/server.js"]
